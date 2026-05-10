@@ -19,7 +19,7 @@ if total != 100:
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/aml_alerts.csv")
+    df = pd.read_csv("data/aml_alerts.csv", encoding="latin-1")
     clients = df.groupby("client_id").agg(
         aml_score=("ml_suspicion_score", "mean"),
         alert_count=("alert_id", "count")

@@ -9,7 +9,7 @@ st.divider()
 
 @st.cache_data
 def load_alerts():
-    return pd.read_csv("data/aml_alerts.csv")
+    return pd.read_csv("data/aml_alerts.csv", encoding="latin-1")
 
 df = load_alerts()
 
