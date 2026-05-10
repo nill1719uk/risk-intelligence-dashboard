@@ -6,7 +6,8 @@ import pandas as pd
 st.set_page_config(page_title="Market Risk", layout="wide")
 
 st.title("Market Risk - Value at Risk Calculator")
-st.markdown("Enter any stock ticker to calculate live VaR")
+st.markdown("Enter any stock ticker to calculate live VaR. Find tickers at [Yahoo Finance](https://finance.yahoo.com)")
+st.info("Examples: AAPL (Apple), TSLA (Tesla), JD.L (JD Sports), HSBA.L (HSBC), RELIANCE.NS (Reliance India)")
 st.divider()
 
 ticker = st.text_input("Stock Ticker", value="AAPL").upper()
