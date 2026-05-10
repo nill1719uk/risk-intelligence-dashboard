@@ -1,15 +1,15 @@
-﻿import streamlit as st
+import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="AML Detection", page_icon="🚨", layout="wide")
+st.set_page_config(page_title="AML Detection", page_icon="??", layout="wide")
 
-st.title("🚨 AML Detection — Transaction Alert Monitor")
+st.title("?? AML Detection � Transaction Alert Monitor")
 st.markdown("Live alert register with rule-based flags and ML risk scores")
 st.divider()
 
 @st.cache_data
 def load_alerts():
-    return pd.read_csv(r"C:\Users\Nillohit\Desktop\Risk_Dashboard\data\aml_alerts.csv")
+    return pd.read_csv("data/aml_alerts.csv")
 
 df = load_alerts()
 

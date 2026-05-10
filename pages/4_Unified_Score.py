@@ -1,11 +1,11 @@
-ï»¿import streamlit as st
+import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title="Unified Risk Score", page_icon="ðŸŽ¯", layout="wide")
+st.set_page_config(page_title="Unified Risk Score", page_icon="??", layout="wide")
 
-st.title("ðŸŽ¯ Unified Risk Score â€” Client Risk Intelligence")
-st.markdown("Composite scoring across Market Â· Credit Â· AML domains")
+st.title("?? Unified Risk Score — Client Risk Intelligence")
+st.markdown("Composite scoring across Market · Credit · AML domains")
 st.divider()
 
 st.sidebar.header("Weight Configuration")
@@ -15,11 +15,11 @@ market_weight = st.sidebar.slider("Market Weight %", 0, 100, 25)
 
 total = aml_weight + credit_weight + market_weight
 if total != 100:
-    st.sidebar.warning(f"Weights sum to {total}% â€” adjust to reach 100%")
+    st.sidebar.warning(f"Weights sum to {total}% — adjust to reach 100%")
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv(r"C:\Users\Nillohit\Desktop\Risk_Dashboard\data\aml_alerts.csv")
+    df = pd.read_csv("data/aml_alerts.csv")
     clients = df.groupby("client_id").agg(
         aml_score=("ml_suspicion_score", "mean"),
         alert_count=("alert_id", "count")
