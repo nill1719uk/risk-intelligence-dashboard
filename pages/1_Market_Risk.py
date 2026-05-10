@@ -13,7 +13,7 @@ st.divider()
 ticker = st.text_input("Stock Ticker", value="AAPL").upper()
 investment = st.number_input("Portfolio Value", value=100000, step=1000)
 confidence = st.slider("Confidence Level", min_value=90, max_value=99, value=95)
-st.caption("90% = Higher loss estimate, less conservative | 95% = Industry standard | 99% = Most conservative, used by major banks")
+st.caption("90% = Higher loss estimate | 95% = Industry standard | 99% = Most conservative, used by major banks")
 
 if st.button("Calculate VaR"):
     with st.spinner("Fetching live data..."):
@@ -21,7 +21,7 @@ if st.button("Calculate VaR"):
             data = yf.download(ticker, period="2y", progress=False, auto_adjust=True)
 
             if data.empty:
-                st.error(f"No data found for ticker: {ticker}")
+                st.error("No data found for ticker: " + ticker)
             else:
                 close_prices = data["Close"].squeeze()
                 returns = close_prices.pct_change().dropna()
@@ -38,12 +38,12 @@ if st.button("Calculate VaR"):
                     param_var = (mean_return - z * std_return) * investment * -1
 
                     col1, col2, col3 = st.columns(3)
-                    col1.metric("Historical VaR", f"{hist_var:,.2f}")
-                    col2.metric("Parametric VaR", f"{param_var:,.2f}")
-                    col3.metric("Daily Volatility", f"{std_return*100:.2f}%")
+                    col1.metric("Historical VaR", str(round(hist_var, 2)))
+                    col2.metric("Parametric VaR", str(round(param_var, 2)))
+                    col3.metric("Daily Volatility", str(round(std_return*100, 2)) + "%")
 
-                    st.success(f"At {confidence}% confidence, the maximum expected 1-day loss is {hist_var:,.2f}")
-st.info(f"This means on {100-confidence} out of every 100 trading days, losses could exceed this figure.")
+                    st.success("At " + str(confidence) + "% confidence, maximum 1-day loss is " + str(round(hist_var, 2)))
+                    st.info("This means on " + str(100-confidence) + " out of every 100 trading days, losses could exceed this figure.")
 
         except Exception as e:
-            st.error(f"Error fetching data: {str(e)}")
+            st.error("Error fetching data: " + str(e))
