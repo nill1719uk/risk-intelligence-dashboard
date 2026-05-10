@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.set_page_config(page_title="Unified Risk Score", page_icon="??", layout="wide")
+st.set_page_config(page_title="Unified Risk Score", layout="wide")
 
-st.title("?? Unified Risk Score — Client Risk Intelligence")
-st.markdown("Composite scoring across Market · Credit · AML domains")
+st.title("Unified Risk Score - Client Risk Intelligence")
+st.markdown("Composite scoring across Market, Credit and AML domains")
 st.divider()
 
 st.sidebar.header("Weight Configuration")
@@ -15,11 +15,11 @@ market_weight = st.sidebar.slider("Market Weight %", 0, 100, 25)
 
 total = aml_weight + credit_weight + market_weight
 if total != 100:
-    st.sidebar.warning(f"Weights sum to {total}% — adjust to reach 100%")
+    st.sidebar.warning(f"Weights sum to {total}% - adjust to reach 100%")
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/aml_alerts.csv", encoding="latin-1")
+    df = pd.read_csv("data/aml_alerts.csv", encoding="utf-8")
     clients = df.groupby("client_id").agg(
         aml_score=("ml_suspicion_score", "mean"),
         alert_count=("alert_id", "count")
@@ -33,13 +33,10 @@ def load_data():
 clients = load_data()
 
 if total == 100:
-    aw = aml_weight / 100
-    cw = credit_weight / 100
-    mw = market_weight / 100
     clients["unified_score"] = (
-        clients["aml_score"] * aw +
-        clients["credit_score"] * cw +
-        clients["market_score"] * mw
+        clients["aml_score"] * (aml_weight/100) +
+        clients["credit_score"] * (credit_weight/100) +
+        clients["market_score"] * (market_weight/100)
     ).round(1)
 
     clients["risk_band"] = pd.cut(clients["unified_score"],
